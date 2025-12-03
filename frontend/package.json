@@ -1,0 +1,13 @@
+{
+  "name": "flask-assignment-frontend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "express": "^4.22.1",
+    "node-fetch": "^2.6.7"
+  }
+}

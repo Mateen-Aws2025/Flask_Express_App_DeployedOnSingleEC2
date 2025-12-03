@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Form</title>
+</head>
+<body>
+    <h1>Submit Form to Flask Backend</h1>
+
+    <form id="form">
+        <input type="text" name="name" placeholder="Enter name"><br><br>
+        <input type="number" name="age" placeholder="Enter age"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Response:</h2>
+    <pre id="response"></pre>
+
+    <script>
+        document.getElementById("form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = Object.fromEntries(new FormData(e.target).entries());
+
+            const res = await fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await res.json();
+            document.getElementById("response").innerText = JSON.stringify(data, null, 2);
+        });
+    </script>
+</body>
+</html>
