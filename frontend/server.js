@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post("/submit", async (req, res) => {
     try {
         const response = await axios.post(
-          "http://backend:5000/submit",
+          "http://13.239.21.235:5000/submit",
     req.body,
     { headers: { "Content-Type": "application/json" } }
 );

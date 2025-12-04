@@ -1,4 +1,13 @@
-node_modules/
+# Python
+__pycache__/
+*.pyc
 venv/
-.DS_Store
+*.log
+
+# Node
+node_modules/
+npm-debug.log
+
+# VS Code
 .vscode/
+
