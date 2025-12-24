@@ -9,20 +9,29 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
 
+// ------------------------
+// Update this with your Elastic IP
+const ELASTIC_IP = "52.72.121.74"; 
+const BACKEND_URL = `http://${ELASTIC_IP}:5000`;
+// ------------------------
+
 // API endpoint when form is submitted
 app.post("/submit", async (req, res) => {
     try {
         const response = await axios.post(
-          "http://3.26.15.95//:5000/submit",
-    req.body,
-    { headers: { "Content-Type": "application/json" } }
-);
+            `${BACKEND_URL}/submit`,
+            req.body,
+            { headers: { "Content-Type": "application/json" } }
+        );
         res.json(response.data);
     } catch (error) {
+        console.error(error);
         res.json({ error: error.toString() });
     }
 });
 
-app.listen(3000, () => {
-    console.log("Frontend running at http://localhost:3000");
+// Listen on all network interfaces for browser access
+app.listen(3000, '0.0.0.0', () => {
+    console.log(`Frontend running at http://${ELASTIC_IP}:3000`);
 });
+

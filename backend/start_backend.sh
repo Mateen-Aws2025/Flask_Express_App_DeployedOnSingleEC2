@@ -2,11 +2,11 @@
 
 echo "Starting Flask Backend..."
 
-# Go to backend directory
-cd /home/ubuntu/Flask_Express_App_DeployedOnSingleEC2/backend
+# Go to the directory where this script is located
+cd "$(dirname "$0")"
 
-# Kill any existing Python process
-pkill -f "python3 app.py"
+# Kill any existing Python backend
+pkill -f "python3 app.py" || true
 
 # Start backend
 nohup python3 app.py > backend.log 2>&1 &
