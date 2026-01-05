@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         APP_DIR = "${WORKSPACE}"
+        BUILD_ID = "${BUILD_NUMBER}"  // Unique build number for logs
     }
 
     stages {
@@ -19,6 +20,7 @@ pipeline {
                 sh '''
                 cd $APP_DIR
                 chmod +x start_app.sh stop_app.sh backend/*.sh frontend/*.sh
+                echo "Stopping previous app..."
                 ./stop_app.sh || true
                 '''
             }
@@ -28,6 +30,7 @@ pipeline {
             steps {
                 sh '''
                 cd $APP_DIR/backend
+                echo "Installing Flask dependencies..."
                 python3 -m pip install --user -r requirements.txt
                 '''
             }
@@ -37,6 +40,7 @@ pipeline {
             steps {
                 sh '''
                 cd $APP_DIR/frontend
+                echo "Installing Express dependencies..."
                 npm install
                 '''
             }
@@ -46,7 +50,8 @@ pipeline {
             steps {
                 sh '''
                 cd $APP_DIR
-                ./start_app.sh
+                echo "Starting application..."
+                ./start_app.sh > logs/deploy_$BUILD_ID.log 2>&1 &
                 '''
             }
         }
@@ -54,10 +59,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deployment Successful"
+            echo "✅ Deployment Successful! Logs saved in logs/deploy_${BUILD_ID}.log"
         }
         failure {
-            echo "❌ Deployment Failed"
+            echo "❌ Deployment Failed! Check logs/deploy_${BUILD_ID}.log"
         }
     }
 }
